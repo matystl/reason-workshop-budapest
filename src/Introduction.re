@@ -284,11 +284,6 @@ let fwoda2 = functionWithOnlyDefaultNamedArgument(~b="bb", ());
 // directory structure is irrelevant
 // to use anything from module just mention it by name
 // Ctrl+click will take you to the module
-let functionFromSomeModule = Js.log;
-// to alias module use module keyword instead of let
-module R = React;
-// or you can alias separate functions from module
-let log = Js.log;
 
 /* Nested modules */
 
@@ -329,16 +324,11 @@ Belt.Array.map([|1, 2, 3|], x => x + 1);
 
 /* FAST PIPE | PIPE LAST */
 let myArray = [|1, 2, 3, 4, 5, 6|];
-Belt.Array.map(Belt.Array.keep(myArray, x => x / 2 == 0), x => x * 2);
 
-// well you can open Belt.Array for readability
-Belt.Array.(map(keep(myArray, x => x / 2 == 0), x => x * 2));
+Belt.Array.map(Belt.Array.keep(myArray, x => x / 2 == 0), x => x * 2);
 
 // or you can pipe result of previous operation into next operation and restore natural order
 myArray->Belt.Array.keep(x => x / 2 == 0)->Belt.Array.map(x => x * 2);
-
-// and even more compact
-Belt.Array.(myArray->keep(x => x / 2 == 0)->map(x => x * 2));
 
 /* curry-ing */
 
