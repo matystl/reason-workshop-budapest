@@ -2,8 +2,8 @@ let inMemoryCache = ApolloInMemoryCache.createInMemoryCache();
 
 let httpLink =
   ApolloLinks.createHttpLink(
-    //~uri="https://pokura.matystl.now.sh/api/graphql",
-    ~uri="http://104.154.18.109/v1/graphql",
+    ~uri="https://pokura.matystl.now.sh/api/graphql",
+    //~uri="http://104.154.18.109/v1/graphql",
     (),
   );
 

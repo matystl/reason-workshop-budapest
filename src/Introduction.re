@@ -14,7 +14,8 @@ multiline";
 {whatever| You can choose your own delimiter to avoid escaping problems.
  {| Look ma no escaping neded |}  |whatever};
 
-{js| js delimiter has special meaning that you can use unicode characters inside 😀 |js};
+{js| js delimiter has special meaning that you can use unicode
+ characters inside 😀 |js};
 
 /* BASIC OPERATIONS */
 
@@ -38,8 +39,8 @@ multiline";
 1.0 < 2.0;
 "a" < "b";
 // but no mixing of types
-// "a" < 1;
-// 1 < 2.0
+//"a" < 1;
+//1 < 2.0;
 
 // string concatenation
 "Hello " ++ "world";
@@ -86,6 +87,7 @@ let functionWithBlock = (a, b) => {
 let varialbeDeclaredWithBlock = {
   let x = 5;
   let y = 10;
+  // last value is returned autmaticaly
   x * y;
 };
 
@@ -94,7 +96,7 @@ let varialbeDeclaredWithBlock = {
 // tupples - immutable, fix-sized, heterogenous
 let a3 = (1, "2");
 // you can destructure them
-let (x, _, y) = ("my string", 9, " other string");
+let (xx, _, yy) = ("my string", 9, " other string");
 // usefull for returning multiple values from functions
 
 // list - immutable, homogeneous
@@ -114,15 +116,16 @@ type person = {
 
 // types are inferred automaticaly
 let oldJohn = {name: "John", age: 70};
+// to access fields use dot operator
+oldJohn.name;
 
-// even in function definition
+// type inference works even in function definition
 let greetPerson = p => print_string("Hello " ++ p.name);
 
 // you can spread to create modified record
 let littleJohn = {...oldJohn, age: 5};
 
-// name punning
-
+/* name punning */
 let middleJohn = {
   // notice that first curly brace indicates start of block, not record
   let age = 20;
@@ -134,6 +137,8 @@ let middleJohn = {
 
 // no need to define types
 let firstJsObject = {"name": "maty", "age": 15};
+// to access properties you need to use ## instead of . as in records
+firstJsObject##name;
 
 // but you can define it if you want
 type someJsObjectType = {
@@ -142,8 +147,6 @@ type someJsObjectType = {
   "age": int,
 };
 let secondJsObject: someJsObjectType = {"name": "maty", "age": 15};
-// to access properties you need to use ## instead of . as in records
-print_string(secondJsObject##name);
 
 // VARIANTS
 
@@ -187,28 +190,30 @@ let otherBetterShape = Square(mySquare);
 // POLYMORFIC VARIANT TYPES
 
 // similar to normal variants but no need to define them
-// they also exist as globals
-//type colorEnum = [ | `Red | `Blue | `Orange];
-let colorOfShape = `Red;
+// and also they are existing as globals
 
-type colorEnum = [ | `Red | `Blue | `Orange];
-(colorOfShape: colorEnum);
-type colorEnum2 = [ | `Red | `Yellow | `Green];
-(colorOfShape: colorEnum2);
-
-// you can't do the same with variants
-type colorEnum3 =
+// problem with reusing same variant in multiple types
+type colorLightEnum =
   | Red
   | Blue
   | Orange;
-type colorEnum4 =
+type colorDarkEnum =
   | Red
   | Yellow
   | Green;
 let colorOfShape = Red;
-// only one of this is permitted as normal variant options are local to type
-//(colorOfShape: colorEnum3);
-(colorOfShape: colorEnum4);
+//(colorOfShape: colorLightEnum);
+(colorOfShape: colorDarkEnum);
+
+// lets try same thing with polymorfic variant
+let colorOfShape = `Red;
+
+type colorLightEnum1 = [ | `Red | `Blue | `Orange];
+(colorOfShape: colorLightEnum1);
+type colorDarkEnum1 = [ | `Red | `Yellow | `Green];
+(colorOfShape: colorLightEnum1);
+
+// as `Red exist as global it can participate in multiple unions
 
 // OPTION most used variant
 
@@ -219,6 +224,31 @@ let colorOfShape = Red;
 
 let maybeIntValue = Some(5);
 let maybeNotIntValue = None;
+
+let a =
+  switch (maybeIntValue) {
+  | Some(i) => i * 10
+  | None => 0
+  };
+
+type direction =
+  | Up(int)
+  | Left(int);
+
+let originalPoint = (5, 5);
+let movement = Up(5);
+
+let movePoint = (point, movement) =>
+  switch (movement) {
+  | Up(u) =>
+    let (x, y) = point;
+    (x + u, y);
+  | Left(l) =>
+    let (x, y) = point;
+    (x, y + l);
+  };
+
+let movedPoint = movePoint(originalPoint, movement);
 
 // FUNCTIONS WITH NAMED ARGUMENTs
 
@@ -245,37 +275,6 @@ let functionWithOnlyDefaultNamedArgument = (~a="a", ~b="b", ()) =>
 let fwoda = functionWithOnlyDefaultNamedArgument();
 let fwoda1 = functionWithOnlyDefaultNamedArgument(~a="aa", ());
 let fwoda2 = functionWithOnlyDefaultNamedArgument(~b="bb", ());
-
-/* IF and SWITCH exprestions */
-
-//let a = if (true) 11 else 10;
-let variableForIf = if (true) {11} else {10};
-
-let someOptionalInt = Some(5);
-let a =
-  switch (someOptionalInt) {
-  | Some(i) => i * 10
-  | None => 0
-  };
-
-type direction =
-  | Up(int)
-  | Left(int);
-
-let originalPoint = (5, 5);
-let movement = Up(5);
-
-let movePoint = (point, movement) =>
-  switch (movement) {
-  | Up(u) =>
-    let (x, y) = point;
-    (x + u, y);
-  | Left(l) =>
-    let (x, y) = point;
-    (x, y + l);
-  };
-
-let movedPoint = movePoint(originalPoint, movement);
 
 /* MODULES */
 
@@ -313,6 +312,7 @@ let var = {
 /* STD lib */
 
 // reason when used with bucklescript has 3 standart libraries
+
 // ocaml one https://reasonml.github.io/api/index
 Array.map(x => x + 1, [|1, 2, 3|]);
 
@@ -328,7 +328,6 @@ Belt.Array.map([|1, 2, 3|], x => x + 1);
 // my recommendation is to use Belt with fast pipe
 
 /* FAST PIPE | PIPE LAST */
-
 let myArray = [|1, 2, 3, 4, 5, 6|];
 Belt.Array.map(Belt.Array.keep(myArray, x => x / 2 == 0), x => x * 2);
 
@@ -344,5 +343,6 @@ Belt.Array.(myArray->keep(x => x / 2 == 0)->map(x => x * 2));
 /* curry-ing */
 
 // there is similar thing for 'piping' last arguments
+
 // it is sometimes helpful for Js module or ocaml library
 myArray |> Js.Array.filter(x => x / 2 != 0) |> Js.Array.map(x => x * 2);
