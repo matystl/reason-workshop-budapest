@@ -1,0 +1,34 @@
+{
+  "name": "reason-workshop-budapest",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "bsb -make-world",
+    "start": "bsb -make-world -w",
+    "clean": "bsb -clean-world",
+    "webpack": "webpack -w",
+    "webpack:production": "NODE_ENV=production webpack",
+    "server": "webpack-dev-server",
+    "refetch-schema": "send-introspection-query https://pokura.matystl.now.sh/api/graphql"
+  },
+  "keywords": [
+    "BuckleScript"
+  ],
+  "author": "matystl",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^16.8.1",
+    "react-dom": "^16.8.1",
+    "reason-react": ">=0.7.0",
+    "reason-apollo": "^0.17.0",
+    "reason-apollo-hooks": "^2.6.0",
+    "@apollo/react-hooks": "^3.1.1"
+  },
+  "devDependencies": {
+    "graphql_ppx": "^0.2.8",
+    "bs-platform": "^5.0.6",
+    "html-webpack-plugin": "^3.2.0",
+    "webpack": "^4.0.1",
+    "webpack-cli": "^3.1.1",
+    "webpack-dev-server": "^3.1.8"
+  }
+}
