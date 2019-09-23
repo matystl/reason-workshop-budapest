@@ -4,7 +4,7 @@ true; // bool
 5; // int
 2.3; // float
 (); // unit
-"Hello budapest"; // string
+"Hello Budapest"; // string
 
 "Strings are by default
 multiline";
@@ -31,9 +31,9 @@ multiline";
 10.0 *. 2.0;
 10.0 /. 3.0;
 
-// comparism operator is universal
+// comparison operator is universal
 // < > <= >= == !=
-// === is referencial equality and usualy you don't want that
+// === is referential equality and usually you don't want that
 1 < 2;
 1.0 < 2.0;
 "a" < "b";
@@ -41,7 +41,7 @@ multiline";
 // "a" < 1;
 // 1 < 2.0
 
-// string concatination
+// string concatenation
 "Hello " ++ "world";
 // and conversion of values to string
 string_of_bool(true);
@@ -53,36 +53,36 @@ float_of_int(4) /. 2.;
 // basic boolean operators
 !true && false || true;
 
-// infix function can be called like normal functions if you put them into brackets
+// infix function can be called like normal functions if you put it into brackets
 // but rfmt might change it anyway
 // (+)(1,2);
 
-/* VARAIBLES AND BASIC FUNCTIONS */
+/* VARIABLES AND BASIC FUNCTIONS */
 let someVarialbeName = 5;
-// you can add type manualy but they are inferd anyway
+// you can add type manualy but they are inferred anyway
 let otherVariableName: int = 5;
-// you can type any exprestion with parentesis (but rfmt will sometimes mingle with it)
+// you can type any expression with parentheses (but rfmt will sometimes mingle with it)
 //let otherVariableName2 = (5: int);
 
-// types are usualy not needed as they are infered for almost anything
+// types are usually not needed as they are inferred for almost anything
 let f = (a, b) => a + b;
 // but you can specify them
 let f2 = (a: int, b: int): int => a + b;
 let f3: (int, int) => int = (a, b) => a + b;
 
-// function are first class object
+// functions are first class object
 // you can take them as arguments
 let applyFunctionOverValue = (f, v) => f(v);
 let inc = x => x + 1;
-applyFunctionOverValue(inc, 5) /* or return them as valu*/;
+applyFunctionOverValue(inc, 5) /* or return them as value*/;
 
 // instead of one value you can use block
 let functionWithBlock = (a, b) => {
-  // last value is returned autmaticaly
+  // last value is returned automatically
   a + b;
 };
 
-// you can use block anywhere expresion is expected
+// you can use block anywhere expression is expected
 let varialbeDeclaredWithBlock = {
   let x = 5;
   let y = 10;
@@ -91,7 +91,7 @@ let varialbeDeclaredWithBlock = {
 
 // COMPOSITE DATA TYPES
 
-// tupples - immutable, fix-sized, heterogenus
+// tupples - immutable, fix-sized, heterogenous
 let a3 = (1, "2");
 // you can destructure them
 let (x, _, y) = ("my string", 9, " other string");
@@ -112,19 +112,19 @@ type person = {
   age: int,
 };
 
-// types are infered automaticaly
+// types are inferred automaticaly
 let oldJohn = {name: "John", age: 70};
 
 // even in function definition
 let greetPerson = p => print_string("Hello " ++ p.name);
 
-// you can spread to create modified reccord
+// you can spread to create modified record
 let littleJohn = {...oldJohn, age: 5};
 
 // name punning
 
 let middleJohn = {
-  // notice that first curly brase indicate start of block not record
+  // notice that first curly brace indicates start of block, not record
   let age = 20;
   // {...oldJohn, age: age};
   {...oldJohn, age};
@@ -164,7 +164,7 @@ type shape =
 
 let someShape = Circle((15, 4), 10);
 
-// maybe we should create reccod for each shape
+// maybe we should create record for each shape
 type circle = {
   center: point,
   radius: int,
@@ -187,7 +187,7 @@ let otherBetterShape = Square(mySquare);
 // POLYMORFIC VARIANT TYPES
 
 // similar to normal variants but no need to define them
-// and also they are existing as globals
+// they also exist as globals
 //type colorEnum = [ | `Red | `Blue | `Orange];
 let colorOfShape = `Red;
 
@@ -196,7 +196,7 @@ type colorEnum = [ | `Red | `Blue | `Orange];
 type colorEnum2 = [ | `Red | `Yellow | `Green];
 (colorOfShape: colorEnum2);
 
-// you can't do same with variants
+// you can't do the same with variants
 type colorEnum3 =
   | Red
   | Blue
@@ -206,7 +206,7 @@ type colorEnum4 =
   | Yellow
   | Green;
 let colorOfShape = Red;
-// only one of this is permited as normal variant options are local to type
+// only one of this is permitted as normal variant options are local to type
 //(colorOfShape: colorEnum3);
 (colorOfShape: colorEnum4);
 
@@ -280,11 +280,11 @@ let movedPoint = movePoint(originalPoint, movement);
 /* MODULES */
 
 // are used to organize code and provide namespacing
-// module name must start with Uppercase lettare
+// module name must start with Uppercase letter
 // every file is module with name same as filename
 // directory structure is irrelevant
-// to use anything from module just menstion it by name
-// Ctrl+click take you to module
+// to use anything from module just mention it by name
+// Ctrl+click will take you to the module
 let functionFromSomeModule = Js.log;
 // to alias module use module keyword instead of let
 module R = React;
@@ -319,13 +319,13 @@ Array.map(x => x + 1, [|1, 2, 3|]);
 // javascript one https://bucklescript.github.io/bucklescript/api/Js.html
 Js.Array.map(x => x + 1, [|1, 2, 3|]);
 
-// buclescript one https://bucklescript.github.io/bucklescript/api/Belt.html
+// bucklescript one https://bucklescript.github.io/bucklescript/api/Belt.html
 Belt.Array.map([|1, 2, 3|], x => x + 1);
 
 // docs to first 2 are in ocaml so use this https://reasonml.github.io/en/try
-// to tranlate ocaml to reason
+// to translate ocaml to reason
 
-// my recomandation is to use Belt with fast pipe
+// my recommendation is to use Belt with fast pipe
 
 /* FAST PIPE | PIPE LAST */
 
@@ -344,5 +344,5 @@ Belt.Array.(myArray->keep(x => x / 2 == 0)->map(x => x * 2));
 /* curry-ing */
 
 // there is similar thing for 'piping' last arguments
-// it is sometimes helpfull for Js module or ocaml library
+// it is sometimes helpful for Js module or ocaml library
 myArray |> Js.Array.filter(x => x / 2 != 0) |> Js.Array.map(x => x * 2);
