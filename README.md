@@ -1,6 +1,13 @@
 # reason-workshop-budapest
 
-## Run Project
+## Steps to do before workshop
+
+- install `vscode` https://code.visualstudio.com
+- install `reason-vscode` extension https://marketplace.visualstudio.com/items?itemName=jaredly.reason-vscode
+
+- clone this repo
+
+- run this commands
 
 ```sh
 npm install
@@ -10,8 +17,6 @@ npm run webpack
 ```
 
 After you see the webpack compilation succeed (the `npm run webpack` step), open up `build/index.html` (**no server needed!**). Then modify whichever `.re` file in `src` and refresh the page to see the changes.
-
-**For more elaborate ReasonReact examples**, please see https://github.com/reasonml-community/reason-react-example
 
 ## Run Project with Server
 
